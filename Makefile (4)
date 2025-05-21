@@ -1,0 +1,19 @@
+NVCC = nvcc
+CXX = mpicxx
+
+NVCCFLAGS = -arch=sm_35 -rdc=true -Xcompiler="-fopenmp -std=c++14 -O3 -funroll-loops" -O3 -lineinfo -use_fast_math
+CXXFLAGS = -fopenmp -std=c++14 -O3 -funroll-loops
+
+LDFLAGS = -lmpi -lmpi_cxx -lcudart -lstdc++ -lgomp -lm
+
+TARGET = a4
+
+SRCS = main.cpp main.cu
+
+$(TARGET): $(SRCS)
+	$(NVCC) $(NVCCFLAGS) $(SRCS) -o $@ $(LDFLAGS)
+
+clean:
+	rm -f $(TARGET)
+
+.PHONY: clean
